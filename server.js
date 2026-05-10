@@ -1,6 +1,8 @@
 require('dotenv').config();
 const dns = require('dns');
 dns.setDefaultResultOrder('ipv4first');
+console.log('ENV CHECK → MONGODB_URI:', process.env.MONGODB_URI ? 'SET ✅' : 'MISSING ❌');
+console.log('ENV CHECK → PORT:', process.env.PORT);
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
