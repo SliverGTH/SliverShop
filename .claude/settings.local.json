@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Set-Location \"c:\\\\Users\\\\Kaka\\\\OneDrive\\\\Desktop\\\\shopping\"; $proc = Start-Process node -ArgumentList \"server.js\" -PassThru -RedirectStandardOutput \".\\\\server_test.log\" -RedirectStandardError \".\\\\server_err.log\"; Start-Sleep 5; Get-Content \".\\\\server_test.log\",\".\\\\server_err.log\"; $proc.Kill\\(\\); Remove-Item \".\\\\server_test.log\",\".\\\\server_err.log\" -ErrorAction SilentlyContinue)",
+      "PowerShell(nslookup shop.am3rqng.mongodb.net 2>&1)",
+      "PowerShell(nslookup _mongodb._tcp.shop.am3rqng.mongodb.net 2>&1)",
+      "PowerShell(nslookup _mongodb._tcp.silver.0uoro9d.mongodb.net 8.8.8.8)",
+      "PowerShell(Resolve-DnsName -Name \"_mongodb._tcp.silver.0uoro9d.mongodb.net\" -Type SRV -Server 8.8.8.8 2>&1)",
+      "PowerShell(Resolve-DnsName -Name \"silver.0uoro9d.mongodb.net\" -Type TXT -Server 8.8.8.8 2>&1)",
+      "PowerShell(New-Item -ItemType Directory -Path \"c:\\\\Users\\\\Kaka\\\\OneDrive\\\\Desktop\\\\shopping\\\\public\\\\uploads\" -Force)"
+    ]
+  }
+}

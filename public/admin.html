@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard - ShopHub</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body class="admin-body">
+
+  <!-- ADMIN HEADER -->
+  <header class="admin-header">
+    <div class="admin-header-inner">
+      <a href="/" class="logo"><span class="logo-icon">🛍️</span><span>ShopHub</span> <span class="admin-tag">Admin</span></a>
+      <div class="admin-header-right">
+        <span id="adminName" class="admin-name"></span>
+        <button class="btn-logout" id="logoutBtn">ออกจากระบบ</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ADMIN LAYOUT -->
+  <div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <ul class="sidebar-nav">
+        <li><a href="#" class="sidebar-link active" data-tab="products">
+          <span>📦</span> จัดการสินค้า
+        </a></li>
+        <li><a href="#" class="sidebar-link" data-tab="add">
+          <span>➕</span> เพิ่มสินค้า
+        </a></li>
+        <li><a href="/" class="sidebar-link">
+          <span>🏪</span> ดูหน้าร้าน
+        </a></li>
+      </ul>
+
+      <!-- Stats -->
+      <div class="admin-stats">
+        <div class="stat-card">
+          <div class="stat-num" id="statProducts">-</div>
+          <div class="stat-label">สินค้าทั้งหมด</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+
+      <!-- TAB: Products List -->
+      <div class="admin-tab" id="tab-products">
+        <div class="admin-section-header">
+          <h2>จัดการสินค้า</h2>
+          <button class="btn-add-product" id="goAddBtn">+ เพิ่มสินค้าใหม่</button>
+        </div>
+
+        <div class="admin-filter-bar">
+          <input type="text" id="adminSearch" placeholder="ค้นหาสินค้า..." />
+          <select id="adminCatFilter">
+            <option value="">ทุกหมวดหมู่</option>
+            <option value="electronics">อิเล็กทรอนิกส์</option>
+            <option value="fashion">แฟชั่น</option>
+            <option value="beauty">ความงาม</option>
+            <option value="home">บ้านและสวน</option>
+            <option value="sports">กีฬา</option>
+          </select>
+        </div>
+
+        <div class="table-wrap">
+          <table class="product-table" id="productTable">
+            <thead>
+              <tr>
+                <th>สินค้า</th>
+                <th>หมวดหมู่</th>
+                <th>ราคา</th>
+                <th>ราคาเดิม</th>
+                <th>คะแนน</th>
+                <th>สถานะ</th>
+                <th>จัดการ</th>
+              </tr>
+            </thead>
+            <tbody id="productTableBody">
+              <tr><td colspan="7" class="table-loading">กำลังโหลด...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- TAB: Add / Edit Product -->
+      <div class="admin-tab hidden" id="tab-add">
+        <div class="admin-section-header">
+          <h2 id="formTitle">เพิ่มสินค้าใหม่</h2>
+          <button class="btn-back" id="backToListBtn">← กลับ</button>
+        </div>
+
+        <div class="alert hidden" id="formAlert"></div>
+
+        <form class="product-form" id="productForm" novalidate>
+          <input type="hidden" id="editProductId" />
+
+          <!-- Image Upload -->
+          <div class="form-group full">
+            <label>รูปภาพสินค้า</label>
+            <div class="image-upload-area" id="imageUploadArea">
+              <div class="image-upload-placeholder" id="imagePlaceholder">
+                <div class="upload-icon">📷</div>
+                <p>คลิกหรือลากรูปมาวางที่นี่</p>
+                <p class="upload-hint">JPG, PNG, WEBP ขนาดไม่เกิน 5MB</p>
+              </div>
+              <img id="imagePreviewImg" class="image-preview-img hidden" src="" alt="preview" />
+              <button type="button" class="remove-image-btn hidden" id="removeImageBtn">✕ ลบรูป</button>
+            </div>
+            <input type="file" id="pImage" accept="image/*" style="display:none" />
+            <input type="hidden" id="keepOldImage" value="1" />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>ชื่อสินค้า *</label>
+              <input type="text" id="pName" placeholder="ชื่อสินค้า" required />
+            </div>
+            <div class="form-group">
+              <label>Emoji สินค้า (ใช้เมื่อไม่มีรูป)</label>
+              <input type="text" id="pEmoji" placeholder="เช่น 📦 🎧 👕" maxlength="4" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>หมวดหมู่ *</label>
+              <select id="pCategory" required>
+                <option value="">-- เลือกหมวดหมู่ --</option>
+                <option value="electronics">อิเล็กทรอนิกส์</option>
+                <option value="fashion">แฟชั่น</option>
+                <option value="beauty">ความงาม</option>
+                <option value="home">บ้านและสวน</option>
+                <option value="sports">กีฬา</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Badge (ไม่บังคับ)</label>
+              <input type="text" id="pBadge" placeholder="เช่น ขายดี, ใหม่, -20%" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>ราคาขาย (บาท) *</label>
+              <input type="number" id="pPrice" placeholder="0" min="0" required />
+            </div>
+            <div class="form-group">
+              <label>ราคาเดิม (บาท)</label>
+              <input type="number" id="pOldPrice" placeholder="0" min="0" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>คะแนนเฉลี่ย (0-5)</label>
+              <input type="number" id="pRating" placeholder="4.5" min="0" max="5" step="0.1" />
+            </div>
+            <div class="form-group">
+              <label>จำนวนรีวิว</label>
+              <input type="number" id="pReviews" placeholder="0" min="0" />
+            </div>
+          </div>
+
+          <div class="form-group full">
+            <label>รายละเอียดสินค้า</label>
+            <textarea id="pDesc" rows="4" placeholder="อธิบายสินค้าโดยละเอียด..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="pInStock" checked />
+              <span>มีสินค้าในคลัง</span>
+            </label>
+          </div>
+
+          <!-- Preview -->
+          <div class="product-preview">
+            <h4>ตัวอย่างสินค้า</h4>
+            <div class="preview-card" id="previewCard">
+              <div class="preview-thumb" id="previewThumb">
+                <img id="previewImgCard" class="hidden" src="" alt="" />
+                <span id="previewEmoji">📦</span>
+              </div>
+              <div class="preview-info">
+                <div class="preview-name" id="previewName">ชื่อสินค้า</div>
+                <div class="preview-price" id="previewPrice">฿0</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn-save" id="saveBtn">
+              <span id="saveBtnText">บันทึกสินค้า</span>
+              <span id="saveBtnSpinner" class="spinner hidden"></span>
+            </button>
+            <button type="button" class="btn-cancel" id="cancelFormBtn">ยกเลิก</button>
+          </div>
+        </form>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- DELETE CONFIRM MODAL -->
+  <div class="modal-overlay hidden" id="deleteOverlay"></div>
+  <div class="confirm-modal hidden" id="deleteModal">
+    <div class="confirm-icon">🗑️</div>
+    <h3>ลบสินค้านี้?</h3>
+    <p id="deleteProductName"></p>
+    <div class="confirm-actions">
+      <button class="btn-danger" id="confirmDeleteBtn">ยืนยันลบ</button>
+      <button class="btn-cancel" id="cancelDeleteBtn">ยกเลิก</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

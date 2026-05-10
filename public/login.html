@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>เข้าสู่ระบบ - ShopHub</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body class="auth-body">
+
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <a href="/" class="auth-logo"><span>🛍️</span> ShopHub</a>
+      <h2 class="auth-title">เข้าสู่ระบบ</h2>
+      <p class="auth-sub">ยินดีต้อนรับกลับ! กรุณากรอกข้อมูลของคุณ</p>
+
+      <div class="alert hidden" id="alert"></div>
+
+      <form id="loginForm" class="auth-form" novalidate>
+        <div class="form-group">
+          <label for="email">อีเมล</label>
+          <input type="email" id="email" placeholder="example@email.com" required />
+        </div>
+        <div class="form-group">
+          <label for="password">รหัสผ่าน</label>
+          <div class="input-pw">
+            <input type="password" id="password" placeholder="รหัสผ่านของคุณ" required />
+            <button type="button" class="toggle-pw" id="togglePw">👁</button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-auth" id="submitBtn">
+          <span id="btnText">เข้าสู่ระบบ</span>
+          <span id="btnSpinner" class="spinner hidden"></span>
+        </button>
+      </form>
+
+      <p class="auth-link">ยังไม่มีบัญชี? <a href="/register.html">สมัครสมาชิกฟรี</a></p>
+    </div>
+
+    <div class="auth-bg-deco">
+      <div class="deco-circle c1"></div>
+      <div class="deco-circle c2"></div>
+      <div class="deco-circle c3"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    initLoginPage();
+  </script>
+</body>
+</html>

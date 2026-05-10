@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShopHub - ร้านค้าออนไลน์</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-top">
+      <div class="container">
+        <div class="header-inner">
+          <a href="#" class="logo">
+            <span class="logo-icon">🛍️</span>
+            <span>ShopHub</span>
+          </a>
+
+          <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="ค้นหาสินค้า..." />
+            <button onclick="searchProducts()">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+            </button>
+          </div>
+
+          <div class="header-actions">
+            <button class="cart-btn" onclick="toggleCart()">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <path d="M16 10a4 4 0 01-8 0"/>
+              </svg>
+              <span class="cart-badge" id="cartBadge">0</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NAV -->
+    <nav class="nav">
+      <div class="container">
+        <ul class="nav-list">
+          <li><a href="#" class="active" onclick="filterCategory('all')">ทั้งหมด</a></li>
+          <li><a href="#" onclick="filterCategory('electronics')">อิเล็กทรอนิกส์</a></li>
+          <li><a href="#" onclick="filterCategory('fashion')">แฟชั่น</a></li>
+          <li><a href="#" onclick="filterCategory('beauty')">ความงาม</a></li>
+          <li><a href="#" onclick="filterCategory('home')">บ้านและสวน</a></li>
+          <li><a href="#" onclick="filterCategory('sports')">กีฬา</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <p class="hero-tag">โปรโมชั่นพิเศษ</p>
+      <h1>ช้อปปิ้งออนไลน์<br />ง่ายๆ ที่ ShopHub</h1>
+      <p class="hero-sub">สินค้าคุณภาพดี ราคาถูก จัดส่งทั่วประเทศ</p>
+      <button class="btn-primary" onclick="filterCategory('all')">เลือกซื้อเลย</button>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-badge">
+        <span class="badge-num">50%</span>
+        <span class="badge-text">ลดสูงสุด</span>
+      </div>
+      <div class="floating-card card-1">
+        <span>📦</span> จัดส่งฟรี
+      </div>
+      <div class="floating-card card-2">
+        <span>⭐</span> สินค้าใหม่ทุกวัน
+      </div>
+    </div>
+  </section>
+
+  <!-- BANNER STRIP -->
+  <div class="banner-strip">
+    <div class="container">
+      <div class="strips">
+        <div class="strip-item"><span>🚚</span> จัดส่งฟรีเมื่อซื้อครบ 500 บาท</div>
+        <div class="strip-item"><span>🔒</span> ชำระเงินปลอดภัย 100%</div>
+        <div class="strip-item"><span>↩️</span> คืนสินค้าได้ภายใน 7 วัน</div>
+        <div class="strip-item"><span>📞</span> ซัพพอร์ต 24/7</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="container">
+
+      <!-- CONTROLS -->
+      <div class="controls">
+        <div class="results-info">
+          <span id="resultsCount">แสดงสินค้าทั้งหมด</span>
+        </div>
+        <div class="sort-wrap">
+          <label>เรียงโดย</label>
+          <select id="sortSelect" onchange="sortProducts()">
+            <option value="default">แนะนำ</option>
+            <option value="price-asc">ราคา: ต่ำ-สูง</option>
+            <option value="price-desc">ราคา: สูง-ต่ำ</option>
+            <option value="name-asc">ชื่อ ก-ฮ</option>
+            <option value="rating">คะแนนสูงสุด</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- PRODUCT GRID -->
+      <div class="product-grid" id="productGrid"></div>
+      <div class="no-results hidden" id="noResults">
+        <div class="no-results-icon">🔍</div>
+        <p>ไม่พบสินค้าที่ค้นหา</p>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="footer-logo"><span>🛍️</span> ShopHub</div>
+          <p>ร้านค้าออนไลน์ที่คุณไว้วางใจ สินค้าหลากหลาย คุณภาพดี ราคาเหมาะสม</p>
+        </div>
+        <div class="footer-col">
+          <h4>ลิงก์ด่วน</h4>
+          <ul>
+            <li><a href="#">เกี่ยวกับเรา</a></li>
+            <li><a href="#">ติดต่อเรา</a></li>
+            <li><a href="#">นโยบายการคืนสินค้า</a></li>
+            <li><a href="#">คำถามที่พบบ่อย</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>หมวดหมู่</h4>
+          <ul>
+            <li><a href="#" onclick="filterCategory('electronics')">อิเล็กทรอนิกส์</a></li>
+            <li><a href="#" onclick="filterCategory('fashion')">แฟชั่น</a></li>
+            <li><a href="#" onclick="filterCategory('beauty')">ความงาม</a></li>
+            <li><a href="#" onclick="filterCategory('home')">บ้านและสวน</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>ติดต่อเรา</h4>
+          <p>📧 hello@shophub.th</p>
+          <p>📞 02-XXX-XXXX</p>
+          <p>⏰ จันทร์-ศุกร์ 9:00-18:00</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 ShopHub. สงวนลิขสิทธิ์</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CART SIDEBAR -->
+  <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+  <aside class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h3>ตะกร้าสินค้า</h3>
+      <button class="close-cart" onclick="toggleCart()">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <div class="cart-empty" id="cartEmpty">
+        <div class="cart-empty-icon">🛒</div>
+        <p>ตะกร้าว่างเปล่า</p>
+        <p class="cart-empty-sub">เพิ่มสินค้าที่ต้องการลงตะกร้า</p>
+      </div>
+    </div>
+    <div class="cart-footer" id="cartFooter" style="display:none">
+      <div class="cart-total">
+        <span>รวมทั้งหมด</span>
+        <span id="cartTotal">฿0</span>
+      </div>
+      <button class="btn-checkout" onclick="checkout()">สั่งซื้อเลย</button>
+      <button class="btn-clear" onclick="clearCart()">ล้างตะกร้า</button>
+    </div>
+  </aside>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal()"></div>
+  <div class="modal" id="productModal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-content" id="modalContent"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

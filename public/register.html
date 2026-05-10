@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>สมัครสมาชิก - ShopHub</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body class="auth-body">
+
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <a href="/" class="auth-logo"><span>🛍️</span> ShopHub</a>
+      <h2 class="auth-title">สมัครสมาชิก</h2>
+      <p class="auth-sub">สร้างบัญชีฟรี เริ่มช้อปได้เลย!</p>
+
+      <div class="alert hidden" id="alert"></div>
+
+      <form id="registerForm" class="auth-form" novalidate>
+        <div class="form-group">
+          <label for="name">ชื่อของคุณ</label>
+          <input type="text" id="name" placeholder="ชื่อ-นามสกุล" required />
+        </div>
+        <div class="form-group">
+          <label for="email">อีเมล</label>
+          <input type="email" id="email" placeholder="example@email.com" required />
+        </div>
+        <div class="form-group">
+          <label for="password">รหัสผ่าน</label>
+          <div class="input-pw">
+            <input type="password" id="password" placeholder="อย่างน้อย 6 ตัวอักษร" required />
+            <button type="button" class="toggle-pw" id="togglePw">👁</button>
+          </div>
+          <div class="pw-strength" id="pwStrength"></div>
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">ยืนยันรหัสผ่าน</label>
+          <input type="password" id="confirmPassword" placeholder="กรอกรหัสผ่านอีกครั้ง" required />
+        </div>
+
+        <button type="submit" class="btn-auth" id="submitBtn">
+          <span id="btnText">สมัครสมาชิก</span>
+          <span id="btnSpinner" class="spinner hidden"></span>
+        </button>
+      </form>
+
+      <p class="auth-link">มีบัญชีแล้ว? <a href="/login.html">เข้าสู่ระบบ</a></p>
+    </div>
+
+    <div class="auth-bg-deco">
+      <div class="deco-circle c1"></div>
+      <div class="deco-circle c2"></div>
+      <div class="deco-circle c3"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    initRegisterPage();
+  </script>
+</body>
+</html>
