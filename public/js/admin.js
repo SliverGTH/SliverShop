@@ -211,7 +211,7 @@ function renderTable(products) {
         <td>
           <div class="action-btns">
             <button class="btn-edit"   onclick="editProduct('${p._id}')">แก้ไข</button>
-            <button class="btn-delete" onclick="openDeleteModal('${p._id}','${p.name.replace(/'/g,"\\'")}')">ลบ</button>
+            <button class="btn-delete" onclick="openDeleteModal('${p._id}','${p.name.replace(/'/g,"\\'").replace(/"/g,'&quot;')}')">ลบ</button>
           </div>
         </td>
       </tr>`;
