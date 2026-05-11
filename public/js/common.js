@@ -42,11 +42,12 @@ const showToast = (msg, type = '') => {
 
 // ===== CATEGORY LABELS =====
 const catLabel = {
-  electronics: 'อิเล็กทรอนิกส์',
-  fashion:     'แฟชั่น',
-  beauty:      'ความงาม',
-  home:        'บ้านและสวน',
-  sports:      'กีฬา',
+  ring:     'แหวน',
+  necklace: 'สร้อยคอ',
+  bracelet: 'กำไล',
+  earring:  'ต่างหู',
+  pendant:  'จี้',
+  set:      'ชุดเซ็ต',
 };
 
 // ===== STARS HELPER =====
