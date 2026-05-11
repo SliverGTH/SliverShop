@@ -24,6 +24,12 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// ── Global error handler (always JSON) ──────────────────────
+app.use((err, req, res, _next) => {
+  console.error('Unhandled error:', err.message);
+  res.status(500).json({ message: err.message || 'เกิดข้อผิดพลาดบนเซิร์ฟเวอร์' });
+});
+
 // ── Seed Admin ──────────────────────────────────────────────
 const seedAdmin = async () => {
   const User = require('./models/User');

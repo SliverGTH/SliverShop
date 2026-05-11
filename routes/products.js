@@ -139,12 +139,11 @@ router.delete('/:id', protect, adminOnly, async (req, res) => {
   }
 });
 
-// multer error handler
-router.use((err, req, res, next) => {
-  if (err instanceof multer.MulterError || err.message.includes('อนุญาต')) {
-    return res.status(400).json({ message: err.message });
-  }
-  next(err);
+// catch-all error handler — always return JSON, never HTML
+router.use((err, req, res, _next) => {
+  const isClient = err instanceof multer.MulterError ||
+    (err.message && err.message.includes('อนุญาต'));
+  res.status(isClient ? 400 : 500).json({ message: err.message || 'เกิดข้อผิดพลาด' });
 });
 
 module.exports = router;
