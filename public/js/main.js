@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.main').scrollIntoView({ behavior: 'smooth' });
   });
 
-  // Footer category links
+  // Category cards & footer links
   document.querySelectorAll('a[data-cat]').forEach(a => {
     a.addEventListener('click', (e) => {
       e.preventDefault();

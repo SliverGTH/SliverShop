@@ -5,31 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Silver Gallery - ร้านเครื่องเงิน</title>
   <link rel="stylesheet" href="/css/style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-  <!-- HEADER -->
+  <!-- ===== HEADER ===== -->
   <header class="header">
-    <div class="header-top">
+    <div class="header-main">
       <div class="container">
         <div class="header-inner">
-          <a href="/" class="logo"><span class="logo-icon">💍</span><span>Silver Gallery</span></a>
 
+          <!-- Logo -->
+          <a href="/" class="logo">
+            <img src="/images/logo.png" class="logo-img" alt="Silver Gallery"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+            <span class="logo-text">💍 <span class="logo-brand">Silver Gallery</span></span>
+          </a>
+
+          <!-- Search -->
           <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="ค้นหาสินค้า..." />
+            <input type="text" id="searchInput" placeholder="ค้นหาเครื่องเงิน เช่น แหวน สร้อยคอ..." />
             <button id="searchBtn">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
               </svg>
             </button>
           </div>
 
+          <!-- Actions -->
           <div class="header-actions">
-            <!-- Auth section filled by JS -->
             <div id="authSection" class="auth-section"></div>
-            <button class="cart-btn" id="cartBtn">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <button class="cart-btn" id="cartBtn" title="ตะกร้าสินค้า">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
                 <line x1="3" y1="6" x2="21" y2="6"/>
                 <path d="M16 10a4 4 0 01-8 0"/>
@@ -37,62 +44,124 @@
               <span class="cart-badge" id="cartBadge">0</span>
             </button>
           </div>
+
         </div>
       </div>
     </div>
 
+    <!-- Category Nav -->
     <nav class="nav">
       <div class="container">
         <ul class="nav-list" id="navList">
           <li><a href="#" data-cat="all" class="active">ทั้งหมด</a></li>
-          <li><a href="#" data-cat="ring">แหวน</a></li>
-          <li><a href="#" data-cat="necklace">สร้อยคอ</a></li>
-          <li><a href="#" data-cat="bracelet">กำไล</a></li>
-          <li><a href="#" data-cat="earring">ต่างหู</a></li>
-          <li><a href="#" data-cat="pendant">จี้</a></li>
-          <li><a href="#" data-cat="set">ชุดเซ็ต</a></li>
+          <li><a href="#" data-cat="ring">💍 แหวน</a></li>
+          <li><a href="#" data-cat="necklace">📿 สร้อยคอ</a></li>
+          <li><a href="#" data-cat="bracelet">✨ กำไล</a></li>
+          <li><a href="#" data-cat="earring">💎 ต่างหู</a></li>
+          <li><a href="#" data-cat="pendant">🔮 จี้</a></li>
+          <li><a href="#" data-cat="set">🎁 ชุดเซ็ต</a></li>
         </ul>
       </div>
     </nav>
   </header>
 
-  <!-- HERO -->
+  <!-- ===== HERO ===== -->
   <section class="hero">
-    <div class="hero-content">
-      <p class="hero-tag">เครื่องประดับเงินแท้</p>
-      <h1>Silver Gallery<br/>ความงามที่ไม่ตกยุค</h1>
-      <p class="hero-sub">เครื่องเงินแท้คุณภาพสูง ออกแบบด้วยใจ ส่งตรงถึงมือคุณ</p>
-      <button class="btn-primary" id="shopNowBtn">เลือกชมเครื่องเงิน</button>
-    </div>
-    <div class="hero-visual">
-      <div class="hero-badge"><span class="badge-num">Silver</span><span class="badge-text">925</span></div>
-      <div class="floating-card card-1"><span>💎</span> เงินแท้ 925</div>
-      <div class="floating-card card-2"><span>✨</span> ดีไซน์พรีเมียม</div>
+    <div class="hero-overlay"></div>
+    <div class="container hero-container">
+      <div class="hero-content">
+        <p class="hero-tag">✦ เครื่องประดับเงินแท้ 925</p>
+        <h1 class="hero-title">Silver Gallery</h1>
+        <p class="hero-sub">ความงามที่ไม่ตกยุค<br/>ออกแบบด้วยใจ ผลิตด้วยฝีมือ</p>
+        <div class="hero-actions">
+          <button class="btn-primary" id="shopNowBtn">เลือกชมเครื่องเงิน</button>
+          <div class="hero-trust">
+            <span>✓ เงินแท้ 925</span>
+            <span>✓ มีใบรับประกัน</span>
+            <span>✓ จัดส่งทั่วไทย</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-badges">
+        <div class="hero-badge-card">
+          <div class="hbc-num">925</div>
+          <div class="hbc-label">Sterling Silver</div>
+        </div>
+        <div class="hero-badge-card secondary">
+          <div class="hbc-icon">🚚</div>
+          <div class="hbc-label">จัดส่งฟรี<br/><small>ครบ 1,000 บาท</small></div>
+        </div>
+        <div class="hero-badge-card secondary">
+          <div class="hbc-icon">↩️</div>
+          <div class="hbc-label">คืนสินค้า<br/><small>ภายใน 7 วัน</small></div>
+        </div>
+      </div>
     </div>
   </section>
 
+  <!-- ===== BENEFIT STRIP ===== -->
   <div class="banner-strip">
     <div class="container">
       <div class="strips">
-        <div class="strip-item"><span>🚚</span> จัดส่งฟรีเมื่อซื้อครบ 1,000 บาท</div>
         <div class="strip-item"><span>💍</span> เงินแท้ 925 มีใบรับประกัน</div>
+        <div class="strip-item"><span>🚚</span> จัดส่งฟรีเมื่อครบ 1,000 บาท</div>
+        <div class="strip-item"><span>🔒</span> ชำระเงินปลอดภัย 100%</div>
         <div class="strip-item"><span>↩️</span> คืนสินค้าได้ภายใน 7 วัน</div>
         <div class="strip-item"><span>📞</span> ซัพพอร์ต 24/7</div>
       </div>
     </div>
   </div>
 
-  <!-- MAIN -->
+  <!-- ===== CATEGORY SHOWCASE ===== -->
+  <section class="cat-showcase-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">เลือกตามหมวดหมู่</h2>
+        <p class="section-sub">เครื่องเงินแท้คุณภาพสูง ดีไซน์หลากหลายสไตล์</p>
+      </div>
+      <div class="cat-grid">
+        <a class="cat-card" href="#" data-cat="ring">
+          <div class="cat-icon">💍</div>
+          <div class="cat-name">แหวน</div>
+        </a>
+        <a class="cat-card" href="#" data-cat="necklace">
+          <div class="cat-icon">📿</div>
+          <div class="cat-name">สร้อยคอ</div>
+        </a>
+        <a class="cat-card" href="#" data-cat="bracelet">
+          <div class="cat-icon">✨</div>
+          <div class="cat-name">กำไล</div>
+        </a>
+        <a class="cat-card" href="#" data-cat="earring">
+          <div class="cat-icon">💎</div>
+          <div class="cat-name">ต่างหู</div>
+        </a>
+        <a class="cat-card" href="#" data-cat="pendant">
+          <div class="cat-icon">🔮</div>
+          <div class="cat-name">จี้</div>
+        </a>
+        <a class="cat-card" href="#" data-cat="set">
+          <div class="cat-icon">🎁</div>
+          <div class="cat-name">ชุดเซ็ต</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PRODUCTS ===== -->
   <main class="main">
     <div class="container">
+      <div class="section-header" style="margin-bottom:16px">
+        <h2 class="section-title">สินค้าทั้งหมด</h2>
+      </div>
       <div class="controls">
         <span id="resultsCount" class="results-info">กำลังโหลด...</span>
         <div class="sort-wrap">
           <label>เรียงโดย</label>
           <select id="sortSelect">
             <option value="">แนะนำ</option>
-            <option value="price-asc">ราคา: ต่ำ-สูง</option>
-            <option value="price-desc">ราคา: สูง-ต่ำ</option>
+            <option value="price-asc">ราคา: ต่ำ → สูง</option>
+            <option value="price-desc">ราคา: สูง → ต่ำ</option>
             <option value="name-asc">ชื่อ ก-ฮ</option>
             <option value="rating">คะแนนสูงสุด</option>
             <option value="newest">ใหม่สุด</option>
@@ -101,7 +170,6 @@
       </div>
 
       <div class="product-grid" id="productGrid">
-        <!-- skeleton loaders -->
         <div class="skeleton-card"></div><div class="skeleton-card"></div>
         <div class="skeleton-card"></div><div class="skeleton-card"></div>
       </div>
@@ -112,11 +180,16 @@
     </div>
   </main>
 
+  <!-- ===== FOOTER ===== -->
   <footer class="footer">
     <div class="container">
       <div class="footer-grid">
         <div class="footer-col">
-          <div class="footer-logo"><span>💍</span> Silver Gallery</div>
+          <div class="footer-logo">
+            <img src="/images/logo.png" class="footer-logo-img" alt="Silver Gallery"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+            <span class="footer-logo-text">💍 <span>Silver Gallery</span></span>
+          </div>
           <p>ร้านเครื่องเงินแท้คุณภาพสูง ออกแบบด้วยความประณีต มอบความงามที่ยั่งยืน</p>
         </div>
         <div class="footer-col">
@@ -125,6 +198,7 @@
             <li><a href="#">เกี่ยวกับเรา</a></li>
             <li><a href="#">ติดต่อเรา</a></li>
             <li><a href="#">นโยบายการคืนสินค้า</a></li>
+            <li><a href="/orders.html">ติดตามคำสั่งซื้อ</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -153,7 +227,7 @@
   <div class="cart-overlay" id="cartOverlay"></div>
   <aside class="cart-sidebar" id="cartSidebar">
     <div class="cart-header">
-      <h3>ตะกร้าสินค้า</h3>
+      <h3>🛒 ตะกร้าสินค้า</h3>
       <button class="close-cart" id="closeCart">✕</button>
     </div>
     <div class="cart-items" id="cartItems">
