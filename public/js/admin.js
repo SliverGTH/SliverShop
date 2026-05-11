@@ -414,6 +414,7 @@ async function confirmDelete() {
     await loadAdminProducts();
   } catch (err) {
     showToast(err.message, 'error');
+  } finally {
     btn.disabled = false; btn.textContent = 'ยืนยันลบ';
   }
 }
