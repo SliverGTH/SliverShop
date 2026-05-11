@@ -1,7 +1,16 @@
 // ===== ADMIN STATE =====
 let adminProducts = [];
+let adminOrders   = [];
 let deleteTargetId = null;
 let selectedImageFile = null;
+
+const ORDER_STATUS_LABEL = {
+  pending:   { text: 'รอการยืนยัน', cls: 'status-pending' },
+  confirmed: { text: 'ยืนยันแล้ว',   cls: 'status-confirmed' },
+  shipped:   { text: 'จัดส่งแล้ว',   cls: 'status-shipped' },
+  delivered: { text: 'ได้รับสินค้าแล้ว', cls: 'status-delivered' },
+  cancelled: { text: 'ยกเลิก',       cls: 'status-cancelled' },
+};
 
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => {
@@ -30,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('adminSearch').addEventListener('input', filterTable);
   document.getElementById('adminCatFilter').addEventListener('change', filterTable);
+  document.getElementById('orderStatusFilter').addEventListener('change', () => loadAdminOrders());
 
   document.getElementById('productForm').addEventListener('submit', saveProduct);
 
@@ -46,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('cancelDeleteBtn').addEventListener('click', closeDeleteModal);
 
   loadAdminProducts();
+  loadAdminOrders();
 });
 
 // ===== IMAGE UPLOAD =====
@@ -326,6 +337,70 @@ function closeDeleteModal() {
   deleteTargetId = null;
   document.getElementById('deleteOverlay').classList.add('hidden');
   document.getElementById('deleteModal').classList.add('hidden');
+}
+
+// ===== ORDERS =====
+async function loadAdminOrders() {
+  try {
+    const status = document.getElementById('orderStatusFilter').value;
+    const url    = status ? `/api/orders?status=${status}` : '/api/orders';
+    const data   = await api(url);
+    adminOrders  = data.orders || [];
+    renderOrderTable(adminOrders);
+    document.getElementById('statOrders').textContent  = data.total ?? adminOrders.length;
+    document.getElementById('statPending').textContent = adminOrders.filter(o => o.status === 'pending').length;
+  } catch (err) {
+    document.getElementById('orderTableBody').innerHTML =
+      `<tr><td colspan="7" class="table-loading" style="color:var(--danger)">${err.message}</td></tr>`;
+  }
+}
+
+function renderOrderTable(orders) {
+  const tbody = document.getElementById('orderTableBody');
+  if (orders.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7" class="table-loading">ไม่มีออเดอร์</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = orders.map(o => {
+    const s    = ORDER_STATUS_LABEL[o.status] || { text: o.status, cls: '' };
+    const date = new Date(o.createdAt).toLocaleDateString('th-TH', { day: '2-digit', month: 'short', year: 'numeric' });
+    const user = o.user || {};
+    const itemSummary = o.items.slice(0, 2).map(i => `${i.name} ×${i.qty}`).join(', ')
+      + (o.items.length > 2 ? ` +${o.items.length - 2} อื่น` : '');
+    const statusOptions = Object.entries(ORDER_STATUS_LABEL).map(([val, {text}]) =>
+      `<option value="${val}" ${o.status === val ? 'selected' : ''}>${text}</option>`
+    ).join('');
+    return `
+      <tr>
+        <td><span style="font-size:.8rem;font-family:monospace">#${o._id.slice(-8).toUpperCase()}</span></td>
+        <td>
+          <div style="font-weight:500">${user.name || '-'}</div>
+          <div style="font-size:.8rem;color:var(--text-muted)">${user.phone || user.email || ''}</div>
+        </td>
+        <td style="max-width:200px;font-size:.875rem">${itemSummary}</td>
+        <td><strong style="color:var(--primary)">฿${o.totalPrice.toLocaleString()}</strong></td>
+        <td><span class="order-status ${s.cls}" style="font-size:.8rem">${s.text}</span></td>
+        <td style="font-size:.85rem">${date}</td>
+        <td>
+          <select class="status-select" onchange="updateOrderStatus('${o._id}', this.value)">
+            ${statusOptions}
+          </select>
+        </td>
+      </tr>`;
+  }).join('');
+}
+
+async function updateOrderStatus(id, status) {
+  try {
+    await api(`/api/orders/${id}/status`, {
+      method: 'PUT',
+      body: JSON.stringify({ status }),
+    });
+    showToast('อัปเดตสถานะเรียบร้อย ✅', 'success');
+    await loadAdminOrders();
+  } catch (err) {
+    showToast(err.message, 'error');
+  }
 }
 
 async function confirmDelete() {

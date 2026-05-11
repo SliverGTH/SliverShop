@@ -54,4 +54,35 @@ router.get('/me', protect, (req, res) => {
   res.json({ user: req.user });
 });
 
+// PUT /api/auth/profile
+router.put('/profile', protect, async (req, res) => {
+  try {
+    const { name, phone, address, currentPassword, newPassword } = req.body;
+    const user = await require('../models/User').findById(req.user._id).select('+password');
+
+    if (name)    user.name  = name.trim();
+    if (phone !== undefined) user.phone = phone;
+    if (address) {
+      user.address.street     = address.street     || '';
+      user.address.district   = address.district   || '';
+      user.address.city       = address.city       || '';
+      user.address.province   = address.province   || '';
+      user.address.postalCode = address.postalCode || '';
+    }
+
+    if (newPassword) {
+      if (!currentPassword) return res.status(400).json({ message: 'กรุณากรอกรหัสผ่านเดิม' });
+      const ok = await user.comparePassword(currentPassword);
+      if (!ok) return res.status(400).json({ message: 'รหัสผ่านเดิมไม่ถูกต้อง' });
+      if (newPassword.length < 6) return res.status(400).json({ message: 'รหัสผ่านใหม่ต้องมีอย่างน้อย 6 ตัวอักษร' });
+      user.password = newPassword;
+    }
+
+    await user.save();
+    res.json({ user: user.toJSON() });
+  } catch (err) {
+    res.status(500).json({ message: 'เกิดข้อผิดพลาด กรุณาลองใหม่' });
+  }
+});
+
 module.exports = router;

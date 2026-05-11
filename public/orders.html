@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ประวัติการสั่งซื้อ - Silver Gallery</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body class="auth-body">
+
+  <div class="profile-wrapper">
+
+    <div class="profile-topbar">
+      <a href="/" class="logo"><span class="logo-icon">💍</span><span>Silver Gallery</span></a>
+      <div style="display:flex;gap:12px;align-items:center">
+        <a href="/profile.html" class="btn-login" style="text-decoration:none">โปรไฟล์</a>
+        <a href="/" class="btn-login" style="text-decoration:none">← กลับร้าน</a>
+      </div>
+    </div>
+
+    <div class="profile-card" style="max-width:860px">
+      <h2 style="margin:0 0 24px;font-size:1.4rem">ประวัติการสั่งซื้อ</h2>
+
+      <div id="ordersSuccess" class="alert success hidden">
+        🎉 สั่งซื้อสำเร็จแล้ว! เราจะดำเนินการจัดส่งให้เร็วที่สุด
+      </div>
+
+      <div id="ordersList">
+        <div style="text-align:center;padding:60px;color:var(--text-muted)">กำลังโหลด...</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/orders.js"></script>
+</body>
+</html>

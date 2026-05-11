@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>โปรไฟล์ - Silver Gallery</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body class="auth-body">
+
+  <div class="profile-wrapper">
+
+    <div class="profile-topbar">
+      <a href="/" class="logo"><span class="logo-icon">💍</span><span>Silver Gallery</span></a>
+      <div style="display:flex;gap:12px;align-items:center">
+        <a href="/orders.html" class="btn-login" style="text-decoration:none">ประวัติการสั่งซื้อ</a>
+        <a href="/" class="btn-login" style="text-decoration:none">← กลับร้าน</a>
+      </div>
+    </div>
+
+    <div class="profile-card">
+      <div class="profile-avatar-wrap">
+        <div class="profile-avatar" id="profileAvatar">?</div>
+        <div>
+          <h2 class="profile-name" id="profileNameDisplay">กำลังโหลด...</h2>
+          <p class="profile-email" id="profileEmailDisplay"></p>
+        </div>
+      </div>
+
+      <div class="alert hidden" id="profileAlert"></div>
+
+      <form id="profileForm" novalidate>
+        <h3 class="profile-section-title">ข้อมูลส่วนตัว</h3>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>ชื่อ-นามสกุล *</label>
+            <input type="text" id="pName" required />
+          </div>
+          <div class="form-group">
+            <label>เบอร์โทรศัพท์ *</label>
+            <input type="tel" id="pPhone" placeholder="08X-XXX-XXXX" />
+          </div>
+        </div>
+
+        <h3 class="profile-section-title">ที่อยู่สำหรับจัดส่ง</h3>
+
+        <div class="form-group full">
+          <label>บ้านเลขที่ / ซอย / ถนน *</label>
+          <input type="text" id="pStreet" placeholder="เช่น 123/4 ซ.สุขุมวิท ถ.สุขุมวิท" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>แขวง / ตำบล</label>
+            <input type="text" id="pDistrict" placeholder="แขวง/ตำบล" />
+          </div>
+          <div class="form-group">
+            <label>เขต / อำเภอ *</label>
+            <input type="text" id="pCity" placeholder="เขต/อำเภอ" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>จังหวัด *</label>
+            <input type="text" id="pProvince" placeholder="จังหวัด" />
+          </div>
+          <div class="form-group">
+            <label>รหัสไปรษณีย์ *</label>
+            <input type="text" id="pPostalCode" placeholder="10110" maxlength="5" />
+          </div>
+        </div>
+
+        <h3 class="profile-section-title">เปลี่ยนรหัสผ่าน <span style="font-size:.8rem;font-weight:400;color:var(--text-muted)">(เว้นว่างถ้าไม่ต้องการเปลี่ยน)</span></h3>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>รหัสผ่านเดิม</label>
+            <div class="input-pw">
+              <input type="password" id="pCurrentPw" placeholder="รหัสผ่านเดิม" />
+              <button type="button" class="toggle-pw" data-target="pCurrentPw">👁</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>รหัสผ่านใหม่</label>
+            <div class="input-pw">
+              <input type="password" id="pNewPw" placeholder="อย่างน้อย 6 ตัวอักษร" />
+              <button type="button" class="toggle-pw" data-target="pNewPw">👁</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions" style="margin-top:24px">
+          <button type="submit" class="btn-save" id="profileSaveBtn">
+            <span id="profileSaveTxt">บันทึกข้อมูล</span>
+            <span id="profileSpinner" class="spinner hidden"></span>
+          </button>
+          <a href="/" class="btn-cancel" style="text-decoration:none;display:inline-flex;align-items:center">ยกเลิก</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/profile.js"></script>
+</body>
+</html>

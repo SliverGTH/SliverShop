@@ -32,6 +32,9 @@
         <li><a href="#" class="sidebar-link" data-tab="add">
           <span>➕</span> เพิ่มสินค้า
         </a></li>
+        <li><a href="#" class="sidebar-link" data-tab="orders">
+          <span>🛒</span> ออเดอร์
+        </a></li>
         <li><a href="/" class="sidebar-link">
           <span>🏪</span> ดูหน้าร้าน
         </a></li>
@@ -42,6 +45,14 @@
         <div class="stat-card">
           <div class="stat-num" id="statProducts">-</div>
           <div class="stat-label">สินค้าทั้งหมด</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statOrders">-</div>
+          <div class="stat-label">ออเดอร์ทั้งหมด</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statPending">-</div>
+          <div class="stat-label">รอยืนยัน</div>
         </div>
       </div>
     </aside>
@@ -208,6 +219,43 @@
 
     </main>
   </div>
+
+      <!-- TAB: Orders -->
+      <div class="admin-tab hidden" id="tab-orders">
+        <div class="admin-section-header">
+          <h2>จัดการออเดอร์</h2>
+        </div>
+
+        <div class="admin-filter-bar">
+          <select id="orderStatusFilter">
+            <option value="">ทุกสถานะ</option>
+            <option value="pending">รอการยืนยัน</option>
+            <option value="confirmed">ยืนยันแล้ว</option>
+            <option value="shipped">จัดส่งแล้ว</option>
+            <option value="delivered">ได้รับสินค้าแล้ว</option>
+            <option value="cancelled">ยกเลิก</option>
+          </select>
+        </div>
+
+        <div class="table-wrap">
+          <table class="product-table" id="orderTable">
+            <thead>
+              <tr>
+                <th>ออเดอร์</th>
+                <th>ลูกค้า</th>
+                <th>สินค้า</th>
+                <th>ยอดรวม</th>
+                <th>สถานะ</th>
+                <th>วันที่</th>
+                <th>จัดการ</th>
+              </tr>
+            </thead>
+            <tbody id="orderTableBody">
+              <tr><td colspan="7" class="table-loading">กำลังโหลด...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
   <!-- DELETE CONFIRM MODAL -->
   <div class="modal-overlay hidden" id="deleteOverlay"></div>

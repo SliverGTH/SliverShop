@@ -77,7 +77,8 @@ function renderAuthHeader() {
     section.innerHTML = `
       <div class="user-menu">
         ${Auth.isAdmin() ? `<a href="/admin.html" class="btn-admin">⚙️ แอดมิน</a>` : ''}
-        <div class="user-avatar" title="${user.name}">${initial}</div>
+        <a href="/orders.html" class="btn-orders-sm" title="ประวัติการสั่งซื้อ">📋 ออเดอร์</a>
+        <a href="/profile.html" class="user-avatar" title="${user.name}" style="text-decoration:none">${initial}</a>
         <span class="user-name">${user.name.split(' ')[0]}</span>
         <button class="btn-logout-sm" id="logoutBtnMain">ออก</button>
       </div>`;
@@ -289,9 +290,8 @@ function checkout() {
     setTimeout(() => window.location.href = '/login.html', 1500);
     return;
   }
-  showToast('ขอบคุณที่สั่งซื้อ! กำลังดำเนินการ... 🎉', 'success');
-  cart = []; saveCart(); updateCartBadge(); renderCartItems();
-  setTimeout(toggleCart, 1500);
+  if (cart.length === 0) { showToast('ตะกร้าว่างเปล่า', 'error'); return; }
+  window.location.href = '/checkout.html';
 }
 
 // ===== MODAL =====
