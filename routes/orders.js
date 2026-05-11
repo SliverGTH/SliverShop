@@ -1,6 +1,7 @@
 const router  = require('express').Router();
 const Order   = require('../models/Order');
 const { protect, adminOnly } = require('../middleware/auth');
+const { sendNewOrderMail } = require('../utils/mailer');
 
 const STATUS_LABEL = {
   pending:   'รอการยืนยัน',
@@ -30,6 +31,8 @@ router.post('/', protect, async (req, res) => {
       totalPrice,
       note: note || '',
     });
+
+    sendNewOrderMail(order, req.user).catch(() => {});
 
     res.status(201).json({ order });
   } catch (err) {
