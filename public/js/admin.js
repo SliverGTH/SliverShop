@@ -299,7 +299,7 @@ async function saveProduct(e) {
       headers: { 'Authorization': `Bearer ${token}` },
       body: formData,
     });
-    const data = await res.json();
+    const data = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(data.message || 'เกิดข้อผิดพลาด');
 
     showToast(editId ? 'แก้ไขสินค้าสำเร็จ ✅' : 'เพิ่มสินค้าสำเร็จ ✅', 'success');
