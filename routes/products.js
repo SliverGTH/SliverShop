@@ -1,36 +1,41 @@
 const router  = require('express').Router();
-const path    = require('path');
-const fs      = require('fs');
 const multer  = require('multer');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const { body, validationResult } = require('express-validator');
 const Product = require('../models/Product');
 const { protect, adminOnly } = require('../middleware/auth');
 
-// ── Multer setup ──────────────────────────────────────────────
-const storage = multer.diskStorage({
-  destination: (_, __, cb) => {
-    const dir = path.join(__dirname, '../public/uploads');
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    cb(null, dir);
-  },
-  filename: (_, file, cb) => {
-    const ext  = path.extname(file.originalname).toLowerCase();
-    const name = `product_${Date.now()}${ext}`;
-    cb(null, name);
+// ── Cloudinary config ─────────────────────────────────────────
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key:    process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder:           'silver-gallery',
+    allowed_formats:  ['jpg', 'jpeg', 'png', 'webp', 'gif'],
+    transformation:   [{ width: 1200, height: 1200, crop: 'limit', quality: 'auto' }],
   },
 });
 
 const fileFilter = (_, file, cb) => {
   const allowed = /jpeg|jpg|png|gif|webp/;
-  if (allowed.test(path.extname(file.originalname).toLowerCase()) &&
-      allowed.test(file.mimetype)) {
-    cb(null, true);
-  } else {
-    cb(new Error('อนุญาตเฉพาะไฟล์รูปภาพ (jpg, png, gif, webp)'));
-  }
+  if (allowed.test(file.mimetype)) cb(null, true);
+  else cb(new Error('อนุญาตเฉพาะไฟล์รูปภาพ (jpg, png, gif, webp)'));
 };
 
 const upload = multer({ storage, fileFilter, limits: { fileSize: 5 * 1024 * 1024 } });
+
+// Extract Cloudinary public_id from URL
+const getPublicId = (url) => {
+  if (!url || !url.includes('/upload/')) return null;
+  const afterUpload = url.split('/upload/')[1].replace(/^v\d+\//, '');
+  return afterUpload.replace(/\.[^/.]+$/, '');
+};
 
 // ── GET /api/products ─────────────────────────────────────────
 router.get('/', async (req, res) => {
@@ -85,7 +90,7 @@ router.post('/', protect, adminOnly, upload.single('image'), async (req, res) =>
       inStock:  req.body.inStock === 'true' || req.body.inStock === true,
       createdBy: req.user._id,
     };
-    if (req.file) data.image = `/uploads/${req.file.filename}`;
+    if (req.file) data.image = req.file.path;
     const product = await Product.create(data);
     res.status(201).json(product);
   } catch (err) {
@@ -109,12 +114,11 @@ router.put('/:id', protect, adminOnly, upload.single('image'), async (req, res) 
     };
 
     if (req.file) {
-      // delete old image file
       if (existing.image) {
-        const oldPath = path.join(__dirname, '../public', existing.image);
-        if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+        const pid = getPublicId(existing.image);
+        if (pid) await cloudinary.uploader.destroy(pid).catch(() => {});
       }
-      data.image = `/uploads/${req.file.filename}`;
+      data.image = req.file.path;
     }
 
     const product = await Product.findByIdAndUpdate(req.params.id, data, { new: true, runValidators: true });
@@ -130,8 +134,8 @@ router.delete('/:id', protect, adminOnly, async (req, res) => {
     const product = await Product.findByIdAndDelete(req.params.id);
     if (!product) return res.status(404).json({ message: 'ไม่พบสินค้า' });
     if (product.image) {
-      const imgPath = path.join(__dirname, '../public', product.image);
-      if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
+      const pid = getPublicId(product.image);
+      if (pid) await cloudinary.uploader.destroy(pid).catch(() => {});
     }
     res.json({ message: 'ลบสินค้าเรียบร้อย' });
   } catch {

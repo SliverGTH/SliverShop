@@ -45,11 +45,27 @@ const seedAdmin = async () => {
   }
 };
 
-// ── Start ───────────────────────────────────────────────────
-const PORT = process.env.PORT || 5000;
-connectDB().then(async () => {
+// ── Connect DB then start (local dev only) ──────────────────
+let dbReady = false;
+const initDB = async () => {
+  if (dbReady) return;
+  await connectDB();
   await seedAdmin();
-  app.listen(PORT, () => {
-    console.log(`🚀 Silver Gallery running at http://localhost:${PORT}`);
+  dbReady = true;
+};
+
+if (require.main === module) {
+  const PORT = process.env.PORT || 5000;
+  initDB().then(() => {
+    app.listen(PORT, () => console.log(`🚀 Silver Gallery running at http://localhost:${PORT}`));
   });
-});
+} else {
+  // Vercel serverless — init DB on first request
+  const originalHandler = app.handle.bind(app);
+  app.handle = async (req, res, next) => {
+    await initDB().catch(console.error);
+    originalHandler(req, res, next);
+  };
+}
+
+module.exports = app;
